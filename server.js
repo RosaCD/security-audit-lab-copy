@@ -110,10 +110,16 @@ app.get('/users', (req, res) => {
  */
 app.post('/save', (req, res) => {
     const data = req.body;
+    const { username } = data;
+
+    
+    if (typeof username !== 'string' || username.length > 50) {
+        return res.status(400).json({ error: 'Invalid' });
+    }
 
     logActivity('SAVE_USER', { data });
 
-    // VULNERABLE: Append directo corrompe JSON
+    
     fs.appendFileSync('./data/users.json', JSON.stringify(data));
 
     res.send("Guardado correctamente");
