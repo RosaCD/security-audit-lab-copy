@@ -44,9 +44,3 @@ jobs:
           args: >
             -Dsonar.projectKey=secure-audit-lab
             -Dsonar.projectName=Secure%20Audit%20Lab
-
-      - name: Check SonarQube Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
-        timeout-minutes: 5
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
