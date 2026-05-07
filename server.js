@@ -73,7 +73,7 @@ app.get('/login', (req, res) => {
     logActivity('LOGIN_ATTEMPT', { username, password });
 
     // VULNERABLE: Comparación insegura
-    const user = users.find(u => u.username == username && u.password == password);
+    const user = users.find(u => u.username === username && u.password === password);
 
     if (user) {
         res.send(`Bienvenido ${user.username}`);
