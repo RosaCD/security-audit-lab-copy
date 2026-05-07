@@ -21,15 +21,22 @@ jobs:
           fetch-depth: 0  # Requerido para un mejor análisis de SonarQube
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v4.0.2
         with:
           node-version: '20'
+          cache: 'npm'
+
+      - name: Cache SonarQube scanner
+        uses: actions/cache@v4.1.2
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
 
       - name: Install dependencies
         run: npm ci
 
       - name: SonarQube Scan
-        uses: sonarsource/sonarqube-scan-action@v4.0.0
+        uses: sonarsource/sonarqube-scan-action@v2.2.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
@@ -39,7 +46,7 @@ jobs:
             -Dsonar.projectName=Secure%20Audit%20Lab
 
       - name: Check SonarQube Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@master
+        uses: sonarsource/sonarqube-quality-gate-action@v1.1.0
         timeout-minutes: 5
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
